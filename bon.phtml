@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>PHP</title>
+    <link rel="stylesheet" href="order-form.css">
+</head>
+<body>
+    <section class="bon">
+        <h1>Bons de commande</h1>
+           <a href="index.php">Retourner à l'acceuil</a>
+        <div class="contact">
+            <p class="customer"><?= $customer["customerName"];?></p>
+            <p class="contactName"><?= $customer["contactFirstName"]; $customer["contactFirstName"];?></p>
+            <p class=""><?= $customer["addressLine1"];?></p>
+            <p><?= $customer["city"];?></p>
+        </div>
+        <table class="standard-table">
+            <caption>Bon de commande n°<?=$_GET['orderNumber']?></caption>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix Unitaire</th>
+                    <th>Quantité</th>
+                    <th>Prix Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $totalHT = 0; 
+                foreach($orderDetails as $orderDetail): ?>
+                    <tr>
+                        <td><?= $orderDetail["productName"] ?></td>
+                        <td><?= $orderDetail["priceUnit"] ?>€</td>
+                        <td><?= $orderDetail["quantityOrdered"] ?></td>
+                        <td><?= $orderDetail["totalPrice"] ?>€</td>
+                    </tr>
+                    <?php 
+                        $totalHT +=  $orderDetail["totalPrice"];
+                    ?>
+                <?php endforeach ?>
+                <tr class="total">
+                    <td></td>
+                    <td></td>
+                    <td>Montant Total HT</td>
+                    <td><?= number_format($totalHT, 2, '.', '') ?>€</td>
+                </tr>
+                 <tr class="total">
+                    <td></td>
+                    <td></td>
+                    <td>TVA (20%)</td>
+                    <td><?= $resultTVA = number_format(($totalHT * 20 / 100), 2, '.', '') ?>€</td>
+                </tr>
+                 <tr class="total">
+                    <td></td>
+                    <td></td>
+                    <td>Montant Total HT</td>
+                    <td><?= number_format($totalHT + $resultTVA, 2, '.', '') ?>€</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>
